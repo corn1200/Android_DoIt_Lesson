@@ -1,7 +1,6 @@
 package com.example.hello;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -18,13 +17,11 @@ public class MainActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("tel:010-1000-1000"));
-                startActivity(intent);
+                Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
 
-//                Intent intent = new Intent();
-//                ComponentName name = new ComponentName("org.example.hello", "org.example.hello.menuActivity");
-//                intent.setComponent(name);
-//                startActivityForResult(intent, 101);
+                SimpleData data = new SimpleData(200, "OK");
+                intent.putExtra("data", data);
+                startActivity(intent);
             }
         });
     }
