@@ -5,7 +5,7 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
-    MainFragment mainFragment;
+    ListFragment mainFragment;
     MenuFragment menuFragment;
 
     @Override
@@ -13,7 +13,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mainFragment = (MainFragment) getSupportFragmentManager().findFragmentById(R.id.mainFragment);
+        mainFragment = (ListFragment) getSupportFragmentManager().findFragmentById(R.id.mainFragment);
         menuFragment = new MenuFragment();
     }
 
