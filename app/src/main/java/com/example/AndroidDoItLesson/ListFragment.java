@@ -11,10 +11,15 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 public class ListFragment extends Fragment {
+    ImageSelectionCallback callback;
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
+
+        if (context instanceof ImageSelectionCallback) {
+            callback = (ImageSelectionCallback) context;
+        }
     }
 
     @NonNull
@@ -26,7 +31,9 @@ public class ListFragment extends Fragment {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if (callback != null) {
+                    callback.onImageSelected(0);
+                }
             }
         });
 
@@ -34,7 +41,9 @@ public class ListFragment extends Fragment {
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if (callback != null) {
+                    callback.onImageSelected(1);
+                }
             }
         });
 
@@ -42,7 +51,9 @@ public class ListFragment extends Fragment {
         button3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if (callback != null) {
+                    callback.onImageSelected(2);
+                }
             }
         });
 
