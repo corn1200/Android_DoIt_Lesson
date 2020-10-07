@@ -1,47 +1,72 @@
 package com.example.AndroidDoItLesson;
 
 import android.os.Bundle;
-import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-    Fragment1 fragment1;
-    Fragment2 fragment2;
-    Fragment3 fragment3;
+    ViewPager pager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        fragment1 = new Fragment1();
-        fragment2 = new Fragment2();
-        fragment3 = new Fragment3();
+        pager = findViewById(R.id.pager);
+        pager.setOffscreenPageLimit(3);
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment1).commit();
+        MyPagerAdapter adapter = new MyPagerAdapter(getSupportFragmentManager());
 
-        BottomNavigationView bottomNavigation = findViewById(R.id.bottom_navigation);
-        bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+        Fragment1 fragment1 = new Fragment1();
+        adapter.addItem(fragment1);
+
+        Fragment2 fragment2 = new Fragment2();
+        adapter.addItem(fragment2);
+
+        Fragment3 fragment3 = new Fragment3();
+        adapter.addItem(fragment3);
+
+        pager.setAdapter(adapter);
+
+        Button button = findViewById(R.id.button);
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                switch (menuItem.getItemId()) {
-                    case R.id.tab1:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment1).commit();
-                        return true;
-                    case R.id.tab2:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment2).commit();
-                        return true;
-                    case R.id.tab3:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment3).commit();
-                        return true;
-                }
-
-                return false;
+            public void onClick(View v) {
+                pager.setCurrentItem(1);
             }
         });
     }
+
+    class MyPagerAdapter extends FragmentStatePagerAdapter {
+        ArrayList<Fragment> items = new ArrayList<>();
+
+        public MyPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        public void addItem(Fragment item) {
+            items.add(item);
+        }
+
+        @NonNull
+        @Override
+        public Fragment getItem(int position) {
+            return items.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return items.size();
+        }
+    }
+
 }
