@@ -23,8 +23,20 @@ public class SmsReceiver extends BroadcastReceiver {
             String contents = messages[0].getMessageBody();
 
             Log.d(TAG, "sender : " + sender + ", contents : " + contents);
+
+            sendToActivity(context, sender, contents);
         }
 
+    }
+
+    public void sendToActivity(Context context, String sender, String contents) {
+        Intent intent = new Intent(context, SmsActivity.class);
+
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra("sender", sender);
+        intent.putExtra("contents", contents);
+
+        context.startActivity(intent);
     }
 
     private SmsMessage[] parseSmsMessage(Bundle bundle) {
