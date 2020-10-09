@@ -3,6 +3,7 @@ package com.example.AndroidDoItLesson;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.telephony.SmsMessage;
 import android.util.Log;
@@ -15,7 +16,14 @@ public class SmsReceiver extends BroadcastReceiver {
         Log.d(TAG, "onReceive 호출됨");
 
         Bundle bundle = intent.getExtras();
-        SmsMessage[] message = parseSmsMessage(bundle);
+        SmsMessage[] messages = parseSmsMessage(bundle);
+
+        if (messages != null && messages.length > 0) {
+            String sender = messages[0].getOriginatingAddress();
+            String contents = messages[0].getMessageBody();
+
+            Log.d(TAG, "sender : " + sender + ", contents : " + contents);
+        }
 
     }
 
@@ -25,9 +33,14 @@ public class SmsReceiver extends BroadcastReceiver {
 
         int smsCount = objs.length;
         for (int i = 0; i < smsCount; i++) {
-            SmsMessage.createFromPdu((byte[]) objs[i]);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                String format = bundle.getString("format");
+                messages[i] = SmsMessage.createFromPdu((byte[]) objs[i], format);
+            } else {
+                messages[i] = SmsMessage.createFromPdu((byte[]) objs[i]);
+            }
         }
 
-        return null;
+        return messages;
     }
 }
