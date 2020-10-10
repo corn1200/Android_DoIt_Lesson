@@ -39,7 +39,11 @@ public class Layout1 extends LinearLayout {
         imageView.setImageResource(resId);
     }
 
-    public void setName() {
+    public void setName(String name) {
+        textView.setText(name);
+    }
 
+    public void setMobile(String mobile) {
+        textView2.setText(mobile);
     }
 }
