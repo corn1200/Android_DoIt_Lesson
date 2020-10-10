@@ -5,17 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <Button
-        android:id="@+id/button"
+    <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="이미지 바꾸기" />
-
-    <com.example.AndroidDoItLesson.Layout1
-        android:id="@+id/layout1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-    </com.example.AndroidDoItLesson.Layout1>
+        android:layout_height="match_parent" />
 </LinearLayout>
