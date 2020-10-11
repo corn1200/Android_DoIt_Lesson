@@ -13,6 +13,22 @@ import java.util.ArrayList;
 public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.ViewHolder> {
     ArrayList<Person> items = new ArrayList<>();
 
+    public void addItem(Person item) {
+        items.add(item);
+    }
+
+    public void setItems(ArrayList<Person> items) {
+        this.items = items;
+    }
+
+    public Person getItem(int position) {
+        return items.get(position);
+    }
+
+    public void setItem(int position, Person item) {
+        items.set(position, item);
+    }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

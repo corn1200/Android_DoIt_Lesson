@@ -1,30 +1,32 @@
 package com.example.AndroidDoItLesson;
 
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class MainActivity extends AppCompatActivity {
-    Layout1 layout1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        layout1 = findViewById(R.id.layout1);
-        layout1.setImage(R.drawable.ic_launcher_background);
-        layout1.setName("김현승");
-        layout1.setMobile("010-1000-1000");
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
 
-        Button button = findViewById(R.id.button);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                layout1.setImage(R.drawable.ic_launcher_foreground);
-            }
-        });
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+//        GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
+
+        recyclerView.setLayoutManager(layoutManager);
+
+        PersonAdapter adapter = new PersonAdapter();
+
+        adapter.addItem(new Person("김민수", "010-1000-1000"));
+        adapter.addItem(new Person("김현승", "010-1000-1000"));
+        adapter.addItem(new Person("엄준식", "010-1000-1000"));
+
+        recyclerView.setAdapter(adapter);
+
     }
 }
