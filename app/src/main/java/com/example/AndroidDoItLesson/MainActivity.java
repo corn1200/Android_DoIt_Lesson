@@ -2,46 +2,41 @@ package com.example.AndroidDoItLesson;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 public class MainActivity extends AppCompatActivity {
-    PersonAdapter adapter;
+    TextView textView;
+
+    String[] items = {"mike", "angel", "crow", "john", "sean"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        textView = findViewById(R.id.textView);
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-//        GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
+        Spinner spinner = findViewById(R.id.spinner);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, items);
 
-        recyclerView.setLayoutManager(layoutManager);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
 
-        adapter = new PersonAdapter();
-
-        adapter.addItem(new Person("김민수", "010-1000-1000"));
-        adapter.addItem(new Person("김현승", "010-1000-1000"));
-        adapter.addItem(new Person("엄준식", "010-1000-1000"));
-
-        recyclerView.setAdapter(adapter);
-
-        adapter.setOnItemClickListener(new OnPersonItemClickListener() {
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemClick(PersonAdapter.ViewHolder holder, View view, int position) {
-                Person item = adapter.getItem(position);
-                showToast("아이템 선택됨 : " + item.getName());
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                textView.setText(items[position]);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                textView.setText("");
             }
         });
-
-    }
-
-    public void showToast(String data) {
-        Toast.makeText(this, data, Toast.LENGTH_LONG).show();
     }
 }
