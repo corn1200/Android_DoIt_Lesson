@@ -13,6 +13,8 @@ import java.util.ArrayList;
 public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.ViewHolder> {
     ArrayList<Person> items = new ArrayList<>();
 
+    OnPersonItemClickListener listener;
+
     public void addItem(Person item) {
         items.add(item);
     }
@@ -29,13 +31,17 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.ViewHolder
         items.set(position, item);
     }
 
+    public void setOnItemClickListener(OnPersonItemClickListener listener) {
+        this.listener = listener;
+    }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View itemView = inflater.inflate(R.layout.person_item, parent, false);
 
-        return new ViewHolder(itemView);
+        return new ViewHolder(itemView, listener);
     }
 
     @Override
@@ -53,11 +59,22 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.ViewHolder
         TextView textView;
         TextView textView2;
 
-        public ViewHolder(View itemView) {
+        public ViewHolder(View itemView, final OnPersonItemClickListener listener) {
             super(itemView);
 
             textView = itemView.findViewById(R.id.textView);
             textView2 = itemView.findViewById(R.id.textView2);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getAdapterPosition();
+
+                    if (listener != null) {
+                        listener.onItemClick(ViewHolder.this, v, position);
+                    }
+                }
+            });
         }
 
         public void setItem(Person item) {
