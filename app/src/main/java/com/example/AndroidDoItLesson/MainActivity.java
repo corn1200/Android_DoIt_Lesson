@@ -28,14 +28,20 @@ public class MainActivity extends AppCompatActivity {
         translateLeftAnim = AnimationUtils.loadAnimation(this, R.anim.translate_left);
         translateRightAnim = AnimationUtils.loadAnimation(this, R.anim.translate_right);
 
-
+        SlidingAnimationListener animationListener = new SlidingAnimationListener();
+        translateRightAnim.setAnimationListener(animationListener);
+        translateLeftAnim.setAnimationListener(animationListener);
 
         button = findViewById(R.id.button);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                page.setVisibility(View.VISIBLE);
-                page.startAnimation(translateLeftAnim);
+                if (isPageOpen) {
+                    page.startAnimation(translateRightAnim);
+                } else {
+                    page.setVisibility(View.VISIBLE);
+                    page.startAnimation(translateLeftAnim);
+                }
             }
         });
     }
@@ -44,9 +50,13 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onAnimationStart(Animation animation) {
             if (isPageOpen) {
+                page.setVisibility(View.INVISIBLE);
 
+                button.setText("열기");
+                isPageOpen = false;
             } else {
-
+                button.setText("닫기");
+                isPageOpen = true;
             }
         }
 
