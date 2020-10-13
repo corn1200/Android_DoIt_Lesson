@@ -1,42 +1,39 @@
 package com.example.AndroidDoItLesson;
 
 import android.os.Bundle;
-import android.view.View;
-import android.webkit.WebResourceRequest;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
-import android.widget.Button;
-import android.widget.EditText;
+import android.widget.SeekBar;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
-    EditText editText;
-    WebView webView;
+    TextView textView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        editText = findViewById(R.id.editTextTextPersonName);
-        webView = findViewById(R.id.webView);
+        textView = findViewById(R.id.textView);
 
-        webView.setWebViewClient(new WebViewClient() {
+        SeekBar seekBar = findViewById(R.id.seekBar);
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
-            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-                view.loadUrl(request.getUrl().toString());
-                return true;
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                textView.setText("지정된 값 : " + progress);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
             }
         });
 
-        Button button = findViewById(R.id.button);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                webView.loadUrl(editText.getText().toString());
-            }
-        });
     }
 
 }
