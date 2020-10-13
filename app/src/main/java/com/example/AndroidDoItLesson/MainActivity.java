@@ -1,39 +1,28 @@
 package com.example.AndroidDoItLesson;
 
+import android.content.Context;
 import android.os.Bundle;
-import android.widget.SeekBar;
-import android.widget.TextView;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
-    TextView textView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        textView = findViewById(R.id.textView);
-
-        SeekBar seekBar = findViewById(R.id.seekBar);
-        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        Button button = findViewById(R.id.button);
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                textView.setText("지정된 값 : " + progress);
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
+            public void onClick(View v) {
+                InputMethodManager manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                manager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
             }
         });
-
     }
 
 }
