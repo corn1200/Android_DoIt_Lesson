@@ -2,73 +2,41 @@ package com.example.AndroidDoItLesson;
 
 import android.os.Bundle;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
-import android.widget.LinearLayout;
+import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
-    Animation translateLeftAnim;
-    Animation translateRightAnim;
-
-    LinearLayout page;
-    Button button;
-
-    boolean isPageOpen = false;
+    EditText editText;
+    WebView webView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        page = findViewById(R.id.page);
+        editText = findViewById(R.id.editTextTextPersonName);
+        webView = findViewById(R.id.webView);
 
-        translateLeftAnim = AnimationUtils.loadAnimation(this, R.anim.translate_left);
-        translateRightAnim = AnimationUtils.loadAnimation(this, R.anim.translate_right);
+        webView.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+                view.loadUrl(request.getUrl().toString());
+                return true;
+            }
+        });
 
-        SlidingAnimationListener animationListener = new SlidingAnimationListener();
-        translateRightAnim.setAnimationListener(animationListener);
-        translateLeftAnim.setAnimationListener(animationListener);
-
-        button = findViewById(R.id.button);
+        Button button = findViewById(R.id.button);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isPageOpen) {
-                    page.startAnimation(translateRightAnim);
-                } else {
-                    page.setVisibility(View.VISIBLE);
-                    page.startAnimation(translateLeftAnim);
-                }
+                webView.loadUrl(editText.getText().toString());
             }
         });
-    }
-
-    class SlidingAnimationListener implements Animation.AnimationListener {
-        @Override
-        public void onAnimationStart(Animation animation) {
-            if (isPageOpen) {
-                page.setVisibility(View.INVISIBLE);
-
-                button.setText("열기");
-                isPageOpen = false;
-            } else {
-                button.setText("닫기");
-                isPageOpen = true;
-            }
-        }
-
-        @Override
-        public void onAnimationEnd(Animation animation) {
-
-        }
-
-        @Override
-        public void onAnimationRepeat(Animation animation) {
-
-        }
     }
 
 }
